@@ -28,13 +28,6 @@ jobs:
 
     - name: build project
       run: mvn clean install -DskipTests
-
-    #- name: Configure AWS credentials
-     # uses: aws-actions/configure-aws-credentials@v2
-      #with:
-       # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        #aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-       # aws-region: us-east-1
     
       # uses: actions/checkout@v3
     - name: Login Dockerhub
@@ -49,17 +42,3 @@ jobs:
     - name: Publish the Docker image into docker hub
       run: docker push devopstest2024/Ashu-GH-Repo:latest
 
-  deploy:
-   needs: build
-  
-   runs-on: TR-GitHub-ECS
-   steps: 
-
-     - name: Pull image from docker hub
-       run: docker pull devopstest2024/Ashu-GH-Repo:latest
-
-     - name: Delete Old docker container
-       run: docker rm -f Ashu-GH-Repo:o-container || true
-       
-     - name: run docker container   
-     - run: sudo docker run -d -p 8080:8080 --name Ashu-GH-Repo-container devopstest2024/Ashu-GH-Repo:latest
